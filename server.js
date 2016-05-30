@@ -3,8 +3,9 @@ import { MongoClient } from 'mongodb'
 import Schema from './Schema'
 import GraphQLHTTP from 'express-graphql'
 
-let app = express()
 let MONGO_URI = 'mongodb://garam:1234@ds017553.mlab.com:17553/garam';
+let app = express()
+app.set('port', (process.env.PORT || 5000));
 
 let db;
 
@@ -18,7 +19,11 @@ MongoClient.connect(
       schema : Schema(db),
       graphiql:true
     }))
-    app.listen(3000, () => console.log("Listening on port 3000"));
+
+    app.listen(app.get('port'), function() {
+      console.log('Node app is running on port', app.get('port'));
+    });
+
 
   }
 )
