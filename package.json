@@ -14,6 +14,7 @@
   "author": "garam",
   "license": "ISC",
   "dependencies": {
+    "ejs": "2.4.1",
     "babel-core": "^6.9.0",
     "babel-cli": "^6.9.0",
     "babel-preset-es2015": "^6.9.0",

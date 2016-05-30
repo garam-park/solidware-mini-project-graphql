@@ -23,6 +23,10 @@ MongoClient.connect(
   }
 )
 
-app.get("/",(req,res) => {
-  res.send("Hello World");
+app.use(express.static(__dirname + '/public'));
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
+app.get('/', function(request, response) {
+  response.render('pages/index');
 });
