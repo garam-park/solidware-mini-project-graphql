@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb'
 import Schema from './Schema'
 import GraphQLHTTP from 'express-graphql'
 
-let MONGO_URI = 'mongodb://garam:1234@ds017553.mlab.com:17553/garam';
+let MONGO_URI = process.env.MONGODB_URL||"NOT FOUND";
 let app = express()
 app.set('port', (process.env.PORT || 5000));
 
@@ -34,4 +34,8 @@ app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
   response.render('pages/index');
+});
+
+app.get('/mongodb', function(request, response) {
+  response.send(MONGO_URI);
 });
