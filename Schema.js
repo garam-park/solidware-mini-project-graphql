@@ -49,13 +49,21 @@ let Schema = (db) => {
             },
             password: {
               name: 'password',
-              type: GraphQLString
+              type: new GraphQLNonNull(GraphQLString)
             }
           },
           resolve: (obj, {email, password}) =>
-            // return db.collection("users").updateOne({email:email}, {$set:{name:name}})
-            db.collection("users").updateOne({email:email}, {$set:{password:password}})
-          // resolve : (obj,{email, name}) => db.collection("users").findOne({email:email}).toArray() //
+            db.collection("users")
+            .updateOne({email:email}, {$set:{password:password}})
+            .then(data => {
+              if(data.matchedCount === 0 ){
+                let error = new Error("Email doesn't exit");
+                throw error;
+              }
+              if(data.modifiedCount === 0 )
+                throw new Error("Password was not changed.")
+              return db.collection("users").findOne({email:email});
+            })
         }//end of updateUser
       })//end of fields
     })//end of mutation
